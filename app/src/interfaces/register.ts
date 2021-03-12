@@ -2,8 +2,14 @@ import registerComponent from '@/utils/register-component/';
 import { getInterfaces } from './index';
 import { Component } from 'vue';
 import api from '@/api';
+import { InterfaceConfig } from './types';
 
 const interfaces = getInterfaces();
+
+let interfacesByKey: Record<string, InterfaceConfig> = {};
+export function getInterfaceByKey(id: string | null | undefined) {
+	if (id) return interfacesByKey[id];
+}
 
 export async function registerInterfaces() {
 	const context = require.context('.', true, /^.*index\.ts$/);
@@ -35,6 +41,7 @@ export async function registerInterfaces() {
 	interfaces.value = modules;
 
 	interfaces.value.forEach((inter) => {
+		interfacesByKey[inter.id] = inter;
 		registerComponent('interface-' + inter.id, inter.component);
 
 		if (typeof inter.options !== 'function' && Array.isArray(inter.options) === false) {
