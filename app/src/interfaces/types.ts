@@ -16,6 +16,7 @@ export type InterfaceConfig = {
 	hideLoader?: boolean;
 	system?: boolean;
 	recommendedDisplays?: string[];
+	validator?: (value: string, item?: Record<string, string | number>) => string | null;
 };
 
 export type InterfaceContext = { i18n: VueI18n };

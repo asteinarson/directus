@@ -207,6 +207,8 @@ import useShortcut from '@/composables/use-shortcut';
 import { NavigationGuard } from 'vue-router';
 import { usePermissions } from '@/composables/use-permissions';
 import unsavedChanges from '@/composables/unsaved-changes';
+import { getInterfaces } from '@/interfaces';
+import { InterfaceConfig } from '@/interfaces/types';
 
 export default defineComponent({
 	name: 'collections-item',
@@ -388,8 +390,30 @@ export default defineComponent({
 			return { breadcrumb };
 		}
 
+		const interfacesByKey: Record<string, InterfaceConfig> = {};
+		getInterfaces().value.forEach((i) => {
+			interfacesByKey[i.id] = i;
+		});
+		function validate(): string[] {
+			const errors: string[] = [];
+			fields.value.forEach((field) => {
+				const field_iface = field.meta?.interface;
+				const iface = field_iface ? interfacesByKey[field_iface] : null;
+				if (iface && iface.validator && item.value) {
+					const e = iface.validator(item.value[field.name.toString()], item.value);
+					if (e) errors.push(e);
+				}
+			});
+			return errors;
+		}
+
 		async function saveAndQuit() {
 			if (isSavable.value === false) return;
+			const errors = validate();
+			if (errors.length > 0) {
+				window.alert('Validation errors: ' + errors.toString());
+				return;
+			}
 
 			try {
 				await save();
@@ -401,6 +425,11 @@ export default defineComponent({
 
 		async function saveAndStay() {
 			if (isSavable.value === false) return;
+			const errors = validate();
+			if (errors.length > 0) {
+				window.alert('Validation errors: ' + errors.toString());
+				return;
+			}
 
 			try {
 				const savedItem: Record<string, any> = await save();
