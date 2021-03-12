@@ -392,11 +392,15 @@ export default defineComponent({
 		}
 
 		function validate() {
+			console.log('Item-validate: ');
 			const errors: string[] = [];
 			fields.value.forEach((field) => {
+				console.log('Item-validate: ' + field.name);
 				const iface = getInterfaceByKey(field.meta?.interface);
 				if (iface && iface.validator && item.value) {
+					console.log('Item-validate: have validator...');
 					const e = iface.validator(item.value[field.name.toString()], item.value);
+					console.log('Item-validate: result: ' + e);
 					if (e) errors.push(e);
 				}
 			});
