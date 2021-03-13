@@ -396,7 +396,7 @@ export default defineComponent({
 			fields.value.forEach((field) => {
 				const iface = getInterfaceByKey(field.meta?.interface);
 				if (iface && iface.validator) {
-					const e = iface.validator(edits.value[field.field], edits.value);
+					const e = iface.validator(edits.value[field.field], edits.value, item.value ?? undefined);
 					if (e) errors.push(e);
 				}
 			});

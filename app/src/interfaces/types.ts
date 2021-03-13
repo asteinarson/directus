@@ -16,7 +16,11 @@ export type InterfaceConfig = {
 	hideLoader?: boolean;
 	system?: boolean;
 	recommendedDisplays?: string[];
-	validator?: (value: string, item?: Record<string, string | number> | null) => string | void;
+	validator?: (
+		value: string,
+		itemEdits?: Record<string, string | number>,
+		item?: Record<string, string | number>
+	) => string | void;
 };
 
 export type InterfaceContext = { i18n: VueI18n };
