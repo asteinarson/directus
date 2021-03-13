@@ -13,4 +13,7 @@ export default defineInterface(({ i18n }) => ({
 	relational: true,
 	options: Options,
 	recommendedDisplays: ['related-values'],
+	validator: function (value: string, item?: Record<string, string | number>) {
+		console.log('m2o-credeb - validator', value, item);
+	},
 }));
