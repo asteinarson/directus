@@ -392,21 +392,17 @@ export default defineComponent({
 		}
 
 		function validate() {
-			console.log('Item-validate: ');
 			const errors: string[] = [];
 			fields.value.forEach((field) => {
-				console.log('Item-validate: ' + field.name);
 				const iface = getInterfaceByKey(field.meta?.interface);
-				if (iface && iface.validator && item.value) {
-					console.log('Item-validate: have validator...');
-					const e = iface.validator(item.value[field.name.toString()], item.value);
-					console.log('Item-validate: result: ' + e);
+				if (iface && iface.validator) {
+					const e = iface.validator(edits.value[field.field], edits.value);
 					if (e) errors.push(e);
 				}
 			});
 			// Better to show errors here
 			if (errors.length) {
-				window.alert('Validation errors: ' + errors.toString());
+				window.alert('Validation errors: \n\n' + errors.toString());
 			}
 			return errors;
 		}

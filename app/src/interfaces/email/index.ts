@@ -1,4 +1,4 @@
-import InterfaceTextInput from './text-input.vue';
+import InterfaceTextInput from '../text-input/text-input.vue';
 import { defineInterface } from '@/interfaces/define';
 
 export default defineInterface(({ i18n }) => ({
@@ -9,10 +9,9 @@ export default defineInterface(({ i18n }) => ({
 	component: InterfaceTextInput,
 	types: ['string', 'uuid'],
 	validator: function (value: string) {
-		console.log('email - validator: ' + value);
 		if (value) {
 			let re_email = /^[a-z_\-]+@([a-z_\-]+\.)+([a-z_\-]+)$/;
-			if (!value.match(re_email)) return '';
+			if (!value.match(re_email)) return 'Invalid email - must have @ and at least one dot after that';
 		}
 	},
 	options: [
@@ -23,7 +22,7 @@ export default defineInterface(({ i18n }) => ({
 				width: 'half',
 				interface: 'text-input',
 				options: {
-					placeholder: i18n.t('enter_a_placeholder'),
+					placeholder: 'Email address',
 				},
 			},
 		},
@@ -47,64 +46,16 @@ export default defineInterface(({ i18n }) => ({
 			},
 		},
 		{
-			field: 'iconLeft',
-			name: i18n.t('icon_left'),
-			type: 'string',
-			meta: {
-				width: 'half',
-				interface: 'icon',
-			},
-		},
-		{
-			field: 'iconRight',
-			name: i18n.t('icon_right'),
-			type: 'string',
-			meta: {
-				width: 'half',
-				interface: 'icon',
-			},
-		},
-		{
 			field: 'trim',
 			name: i18n.t('interfaces.text-input.trim'),
 			type: 'boolean',
-			meta: {
+			/*meta: {
 				width: 'half',
 				interface: 'toggle',
 				options: {
 					label: i18n.t('interfaces.text-input.trim_label'),
 				},
-			},
-			schema: {
-				default_value: false,
-			},
-		},
-		{
-			field: 'masked',
-			name: i18n.t('interfaces.text-input.mask'),
-			type: 'boolean',
-			meta: {
-				width: 'half',
-				interface: 'toggle',
-				options: {
-					label: i18n.t('interfaces.text-input.mask_label'),
-				},
-			},
-			schema: {
-				default_value: false,
-			},
-		},
-		{
-			field: 'nullable',
-			name: i18n.t('interfaces.text-input.nullable'),
-			type: 'boolean',
-			meta: {
-				width: 'half',
-				interface: 'toggle',
-				options: {
-					label: i18n.t('interfaces.text-input.nullable_label'),
-				},
-			},
+			},*/
 			schema: {
 				default_value: true,
 			},
