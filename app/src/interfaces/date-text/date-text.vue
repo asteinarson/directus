@@ -9,7 +9,7 @@
 			class="sans-serif"
 			@input="$listeners.input"
 		></v-input>
-		<p v-if="hover">{{ hover_date }}</p>
+		<p v-if="hover" :class="!date_valid && 'warning'">{{ hover_date }}</p>
 	</v-hover>
 </template>
 
@@ -34,19 +34,22 @@ export default defineComponent({
 			if (isNaN(ts)) return '<not a valid date>';
 			return new Date(props.value).toDateString();
 		});
-		watchEffect(() => console.log(props.value));
+		const date_valid = computed(() => {
+			const ts = Date.parse(props.value);
+			const r = !isNaN(ts);
+			console.log(r);
+			return r;
+		});
 		return {
 			hover_date,
+			date_valid,
 		};
 	},
 });
 </script>
 
 <style lang="scss" scoped>
-.v-button.red {
-	--v-button-color: var(--red);
-}
-.v-button.blue {
-	--v-button-color: var(--blue);
+.warning {
+	color: var(--red);
 }
 </style>
