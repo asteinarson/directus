@@ -4,7 +4,7 @@
 			:value="value"
 			placeholder="Enter date"
 			:disabled="disabled"
-			trim="true"
+			:trim="true"
 			type="text"
 			class="sans-serif"
 			@input="$listeners.input"
