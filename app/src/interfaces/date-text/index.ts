@@ -10,29 +10,34 @@ export default defineInterface(({ i18n }) => ({
 	types: ['dateTime', 'date'],
 	options: [
 		/*{
-			field: 'includeSeconds',
-			name: i18n.t('interfaces.datetime.include_seconds'),
-			type: 'boolean',
+			field: 'dateMode',
+			name: 'Date mode',
+			type: 'string',
 			meta: {
 				width: 'half',
-				interface: 'toggle',
+				interface: 'dropdown',
+				options: {
+					choices: [
+						{ text: "(yy)yy-mm-dd", value: 'ymd' },
+						{ text: "dd/mm/yy(yy)", value: 'dmy' },
+						{ text: "mm/dd/yy(yy)", value: 'mdy' },
+					],
+				},
 			},
 			schema: {
-				default_value: false,
-			},
-		},
-		{
-			field: 'use24',
-			name: i18n.t('interfaces.datetime.use_24'),
-			type: 'boolean',
-			meta: {
-				width: 'half',
-				interface: 'toggle',
-			},
-			schema: {
-				default_value: true,
+				default_value: 'auto',
 			},
 		},*/
 	],
 	recommendedDisplays: ['datetime'],
+	validator: function (
+		value: string,
+		itemEdits?: Record<string, string | number>,
+		item?: Record<string, string | number>
+	) {
+		console.log('date-text - validate');
+		if (!value || !value.length) return 'Empty date';
+		let ts = Date.parse(value);
+		if (isNaN(ts)) return 'Not a valid date';
+	},
 }));
