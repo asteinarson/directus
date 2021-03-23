@@ -17,6 +17,7 @@ export type InterfaceConfig = {
 	system?: boolean;
 	recommendedDisplays?: string[];
 	validator?: (
+		field: Field,
 		value: string,
 		itemEdits?: Record<string, string | number>,
 		item?: Record<string, string | number>

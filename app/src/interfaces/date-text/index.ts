@@ -1,5 +1,6 @@
 import { defineInterface } from '@/interfaces/define';
 import InterfaceDateText from './date-text.vue';
+import { Field } from '@/types';
 
 export default defineInterface(({ i18n }) => ({
 	id: 'date-text',
@@ -31,6 +32,7 @@ export default defineInterface(({ i18n }) => ({
 	],
 	recommendedDisplays: ['datetime'],
 	validator: function (
+		field: Field,
 		value: string,
 		itemEdits?: Record<string, string | number>,
 		item?: Record<string, string | number>
