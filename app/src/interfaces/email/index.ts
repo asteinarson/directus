@@ -9,7 +9,7 @@ export default defineInterface(({ i18n }) => ({
 	icon: 'text_fields',
 	component: InterfaceTextInput,
 	types: ['string', 'uuid'],
-	validator: function (field: Field, value: string) {
+	validator: async function (field: Field, value: string) {
 		if (value) {
 			let re_email = /^[a-z_\-]+@([a-z_\-]+\.)+([a-z_\-]+)$/;
 			if (!value.match(re_email)) return 'Invalid email - must have @ and at least one dot after that';

@@ -31,7 +31,7 @@ export default defineInterface(({ i18n }) => ({
 		},*/
 	],
 	recommendedDisplays: ['datetime'],
-	validator: function (
+	validator: async function (
 		field: Field,
 		value: string,
 		itemEdits?: Record<string, string | number>,

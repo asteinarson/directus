@@ -14,7 +14,7 @@ export default defineInterface(({ i18n }) => ({
 	relational: true,
 	options: Options,
 	recommendedDisplays: ['related-values'],
-	validator: function (
+	validator: async function (
 		field: Field,
 		value: string,
 		itemEdits?: Record<string, string | number>,

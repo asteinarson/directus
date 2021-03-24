@@ -21,7 +21,7 @@ export type InterfaceConfig = {
 		value: string,
 		itemEdits?: Record<string, string | number>,
 		item?: Record<string, string | number>
-	) => string | void;
+	) => Promise<string | void>;
 };
 
 export type InterfaceContext = { i18n: VueI18n };
