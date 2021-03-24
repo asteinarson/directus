@@ -19,8 +19,8 @@ export type InterfaceConfig = {
 	validator?: (
 		field: Field,
 		value: string,
-		itemEdits?: Record<string, string | number>,
-		item?: Record<string, string | number>
+		itemEdits?: Record<string, any>,
+		item?: Record<string, any>
 	) => Promise<string | void>;
 };
 
