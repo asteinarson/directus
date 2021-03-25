@@ -46,24 +46,31 @@ export default defineInterface(({ i18n }) => ({
 				return lut;
 			}
 			// Structure itemEdits so that we can directly access any new value in it
-			let manyById = arrayToLookup(response.data, 'id');
-			let manyChangesById = itemEdits ? arrayToLookup(itemEdits[field.field], 'id') : {};
+			let manyById = arrayToLookup(response.data.data, 'id');
 			console.log('manyById: ', manyById);
+			let manyChangesById = itemEdits ? arrayToLookup(itemEdits[field.field], 'id') : {};
 			console.log('manyChangesById: ', manyChangesById);
 
 			const get_w_fallback = (id: number, field: string) => {
 				let old = manyById[id];
 				let ne_w = manyChangesById[id];
-				if (ne_w && ne_w[field]) return ne_w[field];
-				if (old && old[field]) return old[field];
+				if (ne_w && ne_w[field] != undefined) return ne_w[field];
+				if (old && old[field] != undefined) return old[field];
 			};
 
 			// Now do the calculation
 			let sum = 0.0;
 			for (let id of ids) {
+				let cr = get_w_fallback(id, crCol);
+				let db = get_w_fallback(id, debCol);
+				console.log(`id:${id} cr:${cr} db:${db}`);
 				sum += get_w_fallback(id, crCol) - get_w_fallback(id, debCol);
 			}
-			if (sum != 0.0) return 'Credit/debet difference of: ' + sum.toString();
+			console.log('sum: ' + sum.toString());
+			if (sum != 0.0) {
+				console.log('sum!=0.0');
+				return 'Credit/debet difference of: ' + sum.toString();
+			}
 		}
 	},
 }));
