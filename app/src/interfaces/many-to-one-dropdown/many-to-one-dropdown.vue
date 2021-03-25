@@ -53,6 +53,7 @@ export default defineComponent({
 		const one_table = field_rel.one_collection;
 
 		const items = ref<Record<string, any>[] | null>([]);
+		const icon = ref(false);
 		const loading = ref(false);
 		const loadingText = i18n.t('no_items');
 
@@ -91,7 +92,7 @@ export default defineComponent({
 			loading.value = false;
 		}
 		fetchItems();
-		return { items, loading, loadingText };
+		return { icon, items, loading, loadingText };
 	},
 });
 </script>
