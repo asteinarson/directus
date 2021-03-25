@@ -38,25 +38,32 @@ export default defineInterface(({ i18n }) => ({
 			const response = await api.get('/items/' + field_rel.many_collection + qs);
 			console.log(response.data);
 
-			// Structure itemEdits so that we can directly access any new value in it
-			let changes: Record<number, Record<string, any>> = {};
-			let edits: (number | Record<string, any>)[] = item[field.field];
-			for (let ix in edits) {
-				let v = edits[ix];
-				if (typeof v == 'object') {
-					changes[v.id] = v;
+			function arrayToLookup(a: any[], idField: string) {
+				let lut: Record<number, any> = {};
+				for (let v of a) {
+					if (typeof v == 'object' && v[idField]) lut[v[idField]] = v;
 				}
+				return lut;
 			}
-			console.log('changes: ', changes);
+			// Structure itemEdits so that we can directly access any new value in it
+			let manyById = arrayToLookup(response.data, 'id');
+			let manyChangesById = itemEdits ? arrayToLookup(itemEdits[field.field], 'id') : {};
+			console.log('manyById: ', manyById);
+			console.log('manyChangesById: ', manyChangesById);
 
 			const get_w_fallback = (id: number, field: string) => {
-				changes[id] && changes[id][field] ? changes[id][field] : response.data;
+				let old = manyById[id];
+				let ne_w = manyChangesById[id];
+				if (ne_w && ne_w[field]) return ne_w[field];
+				if (old && old[field]) return old[field];
 			};
+
 			// Now do the calculation
 			let sum = 0.0;
-			for (let o of response.data) {
-				let id = o.id;
+			for (let id of ids) {
+				sum += get_w_fallback(id, crCol) - get_w_fallback(id, debCol);
 			}
+			if (sum != 0.0) return 'Credit/debet difference of: ' + sum.toString();
 		}
 	},
 }));
