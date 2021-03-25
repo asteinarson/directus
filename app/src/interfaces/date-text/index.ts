@@ -31,12 +31,7 @@ export default defineInterface(({ i18n }) => ({
 		},*/
 	],
 	recommendedDisplays: ['datetime'],
-	validator: async function (
-		field: Field,
-		value: string,
-		itemEdits?: Record<string, string | number>,
-		item?: Record<string, string | number>
-	) {
+	validator: async function (field: Field, value: string) {
 		console.log('date-text - validate: ', value);
 		if (!value || !value.length) return 'Empty date';
 		let ts = Date.parse(value);

@@ -16,12 +16,7 @@ export default defineInterface(({ i18n }) => ({
 	relational: true,
 	options: Options,
 	recommendedDisplays: ['related-values'],
-	validator: async function (
-		field: Field,
-		value: string | any[],
-		itemEdits?: Record<string, any>,
-		item?: Record<string, any>
-	) {
+	validator: async function (field: Field, value: any, itemEdits?: Record<string, any>, item?: Record<string, any>) {
 		if (item) {
 			// We must first get previous credit/debet for the included rows
 			const field_rel: Relation = useRelationsStore().getRelationsForField(field.collection, field.field)[0];

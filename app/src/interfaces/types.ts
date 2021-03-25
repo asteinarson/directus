@@ -18,7 +18,7 @@ export type InterfaceConfig = {
 	recommendedDisplays?: string[];
 	validator?: (
 		field: Field,
-		value: string,
+		value: any,
 		itemEdits?: Record<string, any>,
 		item?: Record<string, any>
 	) => Promise<string | void>;
