@@ -393,13 +393,15 @@ export default defineComponent({
 
 		async function validate() {
 			const errors: string[] = [];
-			fields.value.forEach(async (field) => {
-				const iface = getInterfaceByKey(field.meta?.interface);
-				if (iface && iface.validator) {
-					const e = await iface.validator(field, edits.value[field.field], edits.value, item.value ?? undefined);
-					if (e) errors.push(e);
+			for (const field of fields.value) {
+				if (edits.value[field.field]) {
+					const iface = getInterfaceByKey(field.meta?.interface);
+					if (iface && iface.validator) {
+						const e = await iface.validator(field, edits.value[field.field], edits.value, item.value ?? undefined);
+						if (e) errors.push(e);
+					}
 				}
-			});
+			}
 			// Better to show errors here
 			if (errors.length) {
 				window.alert('Validation errors: \n\n' + errors.toString());
