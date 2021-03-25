@@ -391,15 +391,17 @@ export default defineComponent({
 			return { breadcrumb };
 		}
 
-		function validate() {
+		async function validate() {
 			const errors: string[] = [];
-			fields.value.forEach((field) => {
-				const iface = getInterfaceByKey(field.meta?.interface);
-				if (iface && iface.validator) {
-					const e = iface.validator(edits.value[field.field], edits.value, item.value ?? undefined);
-					if (e) errors.push(e);
+			for (const field of fields.value) {
+				if (edits.value[field.field]) {
+					const iface = getInterfaceByKey(field.meta?.interface);
+					if (iface && iface.validator) {
+						const e = await iface.validator(field, edits.value[field.field], edits.value, item.value ?? undefined);
+						if (e) errors.push(e);
+					}
 				}
-			});
+			}
 			// Better to show errors here
 			if (errors.length) {
 				window.alert('Validation errors: \n\n' + errors.toString());
@@ -409,7 +411,7 @@ export default defineComponent({
 
 		async function saveAndQuit() {
 			if (isSavable.value === false) return;
-			if (validate().length > 0) return;
+			if ((await validate()).length > 0) return;
 
 			try {
 				await save();
@@ -421,7 +423,7 @@ export default defineComponent({
 
 		async function saveAndStay() {
 			if (isSavable.value === false) return;
-			if (validate().length > 0) return;
+			if ((await validate()).length > 0) return;
 
 			try {
 				const savedItem: Record<string, any> = await save();
@@ -440,7 +442,7 @@ export default defineComponent({
 
 		async function saveAndAddNew() {
 			if (isSavable.value === false) return;
-			if (validate().length > 0) return;
+			if ((await validate()).length > 0) return;
 
 			try {
 				await save();
@@ -457,7 +459,7 @@ export default defineComponent({
 
 		async function saveAsCopyAndNavigate() {
 			try {
-				if (validate().length > 0) return;
+				if ((await validate()).length > 0) return;
 				const newPrimaryKey = await saveAsCopy();
 				if (newPrimaryKey) router.push(`/collections/${props.collection}/${newPrimaryKey}`);
 			} catch {

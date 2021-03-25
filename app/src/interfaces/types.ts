@@ -17,10 +17,11 @@ export type InterfaceConfig = {
 	system?: boolean;
 	recommendedDisplays?: string[];
 	validator?: (
-		value: string,
-		itemEdits?: Record<string, string | number>,
-		item?: Record<string, string | number>
-	) => string | void;
+		field: Field,
+		value: any,
+		itemEdits?: Record<string, any>,
+		item?: Record<string, any>
+	) => Promise<string | void>;
 };
 
 export type InterfaceContext = { i18n: VueI18n };
