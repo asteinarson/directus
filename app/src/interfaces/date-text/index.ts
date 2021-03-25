@@ -37,7 +37,7 @@ export default defineInterface(({ i18n }) => ({
 		itemEdits?: Record<string, string | number>,
 		item?: Record<string, string | number>
 	) {
-		console.log('date-text - validate');
+		console.log('date-text - validate: ', value);
 		if (!value || !value.length) return 'Empty date';
 		let ts = Date.parse(value);
 		if (isNaN(ts)) return 'Not a valid date';

@@ -37,7 +37,6 @@ export default defineComponent({
 		const date_valid = computed(() => {
 			const ts = Date.parse(props.value);
 			const r = !isNaN(ts);
-			console.log(r);
 			return r;
 		});
 		return {
